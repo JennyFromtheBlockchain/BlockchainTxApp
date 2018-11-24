@@ -19,7 +19,11 @@ function processBlock(blockData) {
       blockData.transactions,
       blockData.timestamp
     );
-    service.persist(zecNo);
+    var selectQuery = "select * from zec_network where blockNumber=" + zecNo.blockNumber + ";";
+    var insertQuery = "insert ignore into zec_network(blockchainTicker, blockNumber, transactions, timestamp) values ('"
+      + zecNo.blockchainTicker + "', '" + zecNo.blockNumber + "', '"
+      + zecNo.transactions + "', '" + zecNo.timestamp + "');";
+    service.persist(zecNo, selectQuery, insertQuery);
   }
 
 function getData() {

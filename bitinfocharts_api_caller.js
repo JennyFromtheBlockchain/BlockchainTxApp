@@ -14,7 +14,7 @@ function processBlock(blockData, ticker) {
   var insertQuery = "insert ignore into " + ticker + "_network(blockchainTicker, blockNumber, transactions, timestamp) values ('"
     + nO.blockchainTicker + "', '" + nO.blockNumber + "', '"
     + nO.transactions + "', '" + nO.timestamp + "');";
-  service.persist(nO, selectQuery, insertQuery);
+  service.persist(nO, selectQuery, insertQuery, null);
 }
 
 function callApi(url, ticker) {
@@ -22,6 +22,7 @@ function callApi(url, ticker) {
     .get(url)
     .then(response => {
       //console.log(Object.getOwnPropertyNames(response));
+      console.log(response);
       for (var i = 0; i < response.data.data.length; i++) {
         processBlock(response.data.data[i], ticker);
       }
@@ -33,9 +34,9 @@ function callApi(url, ticker) {
 
 module.exports = {
   getData: function() {
-    callApi("https://api.blockchair.com/bitcoin/blocks", "btc");
-    callApi("https://api.blockchair.com/bitcoin-cash/blocks", "bch");
-    callApi("https://api.blockchair.com/ethereum/blocks", "eth");
-    callApi("https://api.blockchair.com/litecoin/blocks", "ltc");
+    callApi("https://bitinfocharts.com/dash/explorer/", "dash");
+    //callApi("https://api.blockchair.com/bitcoin-cash/blocks", "bch");
+    //callApi("https://api.blockchair.com/ethereum/blocks", "eth");
+    //callApi("https://api.blockchair.com/litecoin/blocks", "ltc");
   }
 };

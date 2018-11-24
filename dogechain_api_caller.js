@@ -12,13 +12,17 @@ const pool = mysql.createPool({
 
 function processBlock(blockData) {
     var date = new Date(blockData.block.time);
-    var nO = new network_obj(
+    var dogeNO = new network_obj(
       "doge",
       blockData.block.height,
       blockData.block.num_txs,
       blockData.block.time
     );
-    service.persist(nO);
+    var selectQuery = "select * from doge_network where blockNumber=" + dogeNO.blockNumber + ";";
+    var insertQuery = "insert ignore into doge_network(blockchainTicker, blockNumber, transactions, timestamp) values ('"
+      + dogeNO.blockchainTicker + "', '" + dogeNO.blockNumber + "', '"
+      + dogeNO.transactions + "', '" + dogeNO.timestamp + "');";
+    service.persist(dogeNO, selectQuery, insertQuery);
 }
 
 function getData() {
