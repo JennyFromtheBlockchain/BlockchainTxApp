@@ -1,5 +1,3 @@
-const sleep = require("sleep");
-const axios = require("axios");
 const mysql = require("mysql");
 const pool = mysql.createPool({
   connectionLimit: 5,

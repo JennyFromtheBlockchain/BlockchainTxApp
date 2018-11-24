@@ -1,6 +1,5 @@
 const service = require('./service.js');
 const network_obj = require('./network_object');
-const mysql = require("mysql");
 const axios = require("axios");
 
 function processBlockchairBlock(blockData, ticker) {
