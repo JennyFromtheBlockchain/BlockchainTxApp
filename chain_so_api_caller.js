@@ -10,68 +10,62 @@ const pool = mysql.createPool({
   database: "transactions"
 });
 
-function processBlock(blockData) {
-    var date = new Date(blockData.time);
-    var trxNO = new network_obj(
-      "trx",
-      blockData.block_header.raw_data.number,
-      blockData.transactions.length,
-      blockData.block_header.raw_data.timestamp
+function processBlock(blockData, ticker) {
+    var date = new Date(blockData.data.time);
+    var nO = new network_obj(
+      ticker,
+      blockData.data.block_no,
+      blockData.data.txs.length,
+      blockData.data.time
     );
-    service.persist(trxNO);
+    service.persist(nO);
   }
 
-function getData() {
+function getData(ticker) {
   pool.getConnection(function(err, connection) {
     if (err) {
       return console.log("error: " + err.message);
     }
-    var query = "select max(blockNumber) from trx_network;";
+    var query = "select max(blockNumber) from " + ticker +"_network;";
     connection.query(query, function(err, result, fields) {
       if (err) throw err;
       var maxBlockInDb = parseInt(service.getBlockNumberFromRowDataPacket(result));
-      callApi(maxBlockInDb);
+      callApi(ticker, maxBlockInDb);
     });
     connection.release();
   });
 }
 
-function callApi(maxBlockInDb) {
+function callApi(ticker, maxBlockInDb) {
   axios
-    .get("https://api.trongrid.io/wallet/getnowblock")
+    .get("https://chain.so/api/v2/get_info/" + ticker)
     .then(response => {
       //console.log(Object.getOwnPropertyNames(response));
       var blockHeight =
-        parseInt(response.data.block_header.raw_data.number) + 1;
+        parseInt(response.data.data.blocks);
       maxBlockInDb = maxBlockInDb == -1 ? blockHeight - 30 : maxBlockInDb;
       blockHeight =
         maxBlockInDb + 30 < blockHeight ? maxBlockInDb + 30 : blockHeight;
-      callApiForBlocks(maxBlockInDb, blockHeight);
+      callApiForBlocks(ticker, maxBlockInDb, blockHeight);
     })
     .catch(error => {
       console.log(error);
     });
 }
-function callApiForBlocks(maxBlockInDb, blockHeight) {
+function callApiForBlocks(ticker, maxBlockInDb, blockHeight) {
   axios
-    .get("https://api.trongrid.io/wallet/getblockbylimitnext", {
-      params: {
-        startNum: maxBlockInDb,
-        endNum: blockHeight
-      }
-    })
+    .get("https://chain.so/api/v2/block/" + ticker + "/" + blockHeight)
     .then(response => {
-      for (var i = 0; i < response.data.block.length; i++) {
-        processBlock(response.data.block[i]);
-      }
+        processBlock(response.data, ticker);
     })
     .catch(error => {
       console.log(error);
     });
 }
 module.exports = {
-    getData: function() {
-      //msleep(500);
-      getData();
-    }
+  getData: function() {
+    getData("doge");
+    getData("dash");
+    getData("zec");
+  }
 };
