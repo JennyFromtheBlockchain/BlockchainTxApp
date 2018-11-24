@@ -10,54 +10,53 @@ const pool = mysql.createPool({
   database: "transactions"
 });
 
-function processBlock(blockData, ticker) {
-    var date = new Date(blockData.data.time);
+function processBlock(blockData) {
+    var date = new Date(blockData.block.time);
     var nO = new network_obj(
-      ticker,
-      blockData.data.block_no,
-      blockData.data.txs.length,
-      blockData.data.time
+      "doge",
+      blockData.block.height,
+      blockData.block.num_txs,
+      blockData.block.time
     );
     service.persist(nO);
-  }
+}
 
-function getData(ticker) {
+function getData() {
   pool.getConnection(function(err, connection) {
     if (err) {
       return console.log("error: " + err.message);
     }
-    var query = "select max(blockNumber) from " + ticker +"_network;";
+    var query = "select max(blockNumber) from doge_network;";
     connection.query(query, function(err, result, fields) {
       if (err) throw err;
       var maxBlockInDb = parseInt(service.getBlockNumberFromRowDataPacket(result));
-      callApi(ticker, maxBlockInDb);
+      callApi(maxBlockInDb);
     });
     connection.release();
   });
 }
 
-function callApi(ticker, maxBlockInDb) {
+function callApi(maxBlockInDb) {
   axios
-    .get("https://chain.so/api/v2/get_info/" + ticker)
+    .get("https://dogechain.info/chain/Dogecoin/q/getblockcount")
     .then(response => {
       //console.log(Object.getOwnPropertyNames(response));
       var blockHeight =
-        parseInt(response.data.data.blocks);
+        parseInt(response.data);
       maxBlockInDb = maxBlockInDb == -1 ? blockHeight - 30 : maxBlockInDb;
       blockHeight =
-        maxBlockInDb + 30 < blockHeight ? maxBlockInDb + 30 : blockHeight;
-      callApiForBlocks(ticker, maxBlockInDb, blockHeight);
+        maxBlockInDb + 30 < blockHeight ? maxBlockInDb + 30 : blockHeight - 1;
+      callApiForBlocks(maxBlockInDb, blockHeight);
     })
     .catch(error => {
       console.log(error);
     });
 }
-function callApiForBlocks(ticker, maxBlockInDb, blockHeight) {
-  service.msleep(4000);
+function callApiForBlocks(maxBlockInDb, blockHeight) {
   axios
-    .get("https://chain.so/api/v2/block/" + ticker + "/" + blockHeight)
+    .get("https://dogechain.info/api/v1/block/" + blockHeight)
     .then(response => {
-        processBlock(response.data, ticker);
+        processBlock(response.data, "doge");
     })
     .catch(error => {
       console.log(error);
@@ -65,11 +64,6 @@ function callApiForBlocks(ticker, maxBlockInDb, blockHeight) {
 }
 module.exports = {
   getData: function() {
-    getData("doge");
-    service.msleep(4000);
-    getData("dash");
-    service.msleep(4000);
-    getData("zec");
-    service.msleep(4000);
+    getData();
   }
 };

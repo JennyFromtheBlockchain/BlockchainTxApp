@@ -7,10 +7,6 @@ const pool = mysql.createPool({
   database: "transactions"
 });
 
-function msleep(n) {
-  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, n);
-}
-
 module.exports = {
     persist: function(network_obj) {
         pool.getConnection(function(err, connection) {
@@ -42,5 +38,8 @@ module.exports = {
         packet = packet.replace("}", "");
         if (isNaN(packet)) return -1;
         return packet;
-    }
+    },
+    msleep: function(n) {
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, n);
+      }
 };
