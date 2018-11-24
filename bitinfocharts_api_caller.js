@@ -11,9 +11,9 @@ function processBlock(blockData, ticker) {
     date.getTime()
   );
   var selectQuery = "select * from " + ticker + "_network where blockNumber=" + nO.blockNumber + ";";
-  var insertQuery = "insert ignore into " + ticker + "_network(blockchainTicker, blockNumber, transactions, timestamp) values ('"
-    + nO.blockchainTicker + "', '" + nO.blockNumber + "', '"
-    + nO.transactions + "', '" + nO.timestamp + "');";
+  var insertQuery = "insert ignore into " + ticker + "_network(blockchainTicker, " 
+    + "blockNumber, transactions, timestamp) values ('" + nO.blockchainTicker + "', '"
+    + nO.blockNumber + "', '" + nO.transactions + "', '" + nO.timestamp + "');";
   service.persist(nO, selectQuery, insertQuery, null);
 }
 

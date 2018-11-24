@@ -19,9 +19,9 @@ function processBlock(blockData) {
       blockData.block.time
     );
     var selectQuery = "select * from doge_network where blockNumber=" + dogeNO.blockNumber + ";";
-    var insertQuery = "insert ignore into doge_network(blockchainTicker, blockNumber, transactions, timestamp) values ('"
-      + dogeNO.blockchainTicker + "', '" + dogeNO.blockNumber + "', '"
-      + dogeNO.transactions + "', '" + dogeNO.timestamp + "');";
+    var insertQuery = "insert ignore into doge_network(blockchainTicker, blockNumber, "
+      + "transactions, timestamp) values ('" + dogeNO.blockchainTicker + "', '"
+      + dogeNO.blockNumber + "', '" + dogeNO.transactions + "', '" + dogeNO.timestamp + "');";
     service.persist(dogeNO, selectQuery, insertQuery);
 }
 

@@ -19,9 +19,9 @@ function processBlock(blockData) {
       blockData.block_header.raw_data.timestamp
     );
     var selectQuery = "select * from trx_network where blockNumber=" + trxNO.blockNumber + ";";
-    var insertQuery = "insert ignore into trx_network(blockchainTicker, blockNumber, transactions, timestamp) values ('"
-      + trxNO.blockchainTicker + "', '" + trxNO.blockNumber + "', '"
-      + trxNO.transactions + "', '" + trxNO.timestamp + "');";
+    var insertQuery = "insert ignore into trx_network(blockchainTicker, blockNumber,"
+      + "transactions, timestamp) values ('" + trxNO.blockchainTicker + "', '" 
+      + trxNO.blockNumber + "', '" + trxNO.transactions + "', '" + trxNO.timestamp + "');";
     service.persist(trxNO, selectQuery, insertQuery);
   }
 
