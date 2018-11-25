@@ -24,5 +24,6 @@ var interval = setInterval(function(){
 	minergateCaller.getData();
 	coinerexplorerCaller.getData();
 	vechainCaller.getData();
+	//TODO coinmetricsCaller only needs to be called every 12 hours
 	coinmetricsCaller.getData();
 }, 5000);

@@ -18,10 +18,10 @@ class network_obj {
 };
 
 const tickers = ["ae", "dcr", "xem", "xvg", "dgb", "btg", "ada", "lsk", "neo", "gas", "eos", "waves", "maid",
-"aion", "ant", "bat", "bnb", "btm", "cennz", "ctxc", "cvc", "drgn", "elf", "eng", "ethos", "fun", "gno",
-"gnt", "icn", "icx", "kcs", "knc", "loom", "lrc", "mana", "mtl", "nas", "omg", "pay", "poly", "powr", "ppt",
-"qash", "rep", "rhoc", "salt", "snt", "srn", "ven", "veri", "wtc", "zil", "zrx"];
-
+  "aion", "ant", "bat", "bnb", "btm", "cennz", "ctxc", "cvc", "drgn", "elf", "eng", "ethos", "fun", "gno",
+  "gnt", "icn", "icx", "kcs", "knc", "loom", "lrc", "mana", "mtl", "nas", "omg", "pay", "poly", "powr", "ppt",
+  "qash", "rep", "rhoc", "salt", "snt", "srn", "ven", "veri", "wtc", "zil", "zrx"];
+const dayInSec = 86400;
 function processBlock(blockData, ticker) {
   var date = new Date(blockData.timestamp);
   var nO = new network_obj(
@@ -45,8 +45,10 @@ function getData(ticker) {
         if (err) throw err;
         var maxTimeStampInDb = parseInt(service.getBlockNumberFromRowDataPacket(result, "timestamp"));
         var curTime = Math.floor(new Date().getTime() / 1000);
-        maxTimeStampInDb = maxTimeStampInDb == -1 ? curTime - (30 * 86400) : maxTimeStampInDb;
-        if(maxTimeStampInDb + 192800 < curTime) {
+        // If no records in db, get data from api from last 30 days
+        maxTimeStampInDb = maxTimeStampInDb == -1 ? curTime - (30 * dayInSec) : maxTimeStampInDb + 1;
+
+        if(maxTimeStampInDb + (2 * dayInSec) < curTime) {
             var url = "https://coinmetrics.io/api/v1/get_asset_data_for_time_range/" + ticker + "/txcount/"
                   + maxTimeStampInDb + "/" + curTime;
             callApi(url, ticker);
