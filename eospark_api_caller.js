@@ -12,17 +12,17 @@ const pool = mysql.createPool({
 
 function processBlock(blockData) {
     var date = new Date(blockData.block.time);
-    var dogeNO = new network_obj(
-      "doge",
-      blockData.block.height,
-      blockData.block.num_txs,
-      blockData.block.time
+    var eosNO = new network_obj(
+      "eos",
+      blockData.block_num,
+      blockData.transactions.length,
+      blockData.timestamp
     );
-    var selectQuery = "select * from doge_network where blockNumber=" + dogeNO.blockNumber + ";";
-    var insertQuery = "insert ignore into doge_network(blockchainTicker, blockNumber, "
-      + "transactions, timestamp) values ('" + dogeNO.blockchainTicker + "', '"
-      + dogeNO.blockNumber + "', '" + dogeNO.transactions + "', '" + dogeNO.timestamp + "');";
-    service.persist(dogeNO, selectQuery, insertQuery);
+    var selectQuery = "select * from eos_network where blockNumber=" + eosNO.blockNumber + ";";
+    var insertQuery = "insert ignore into eos_network(blockchainTicker, blockNumber, "
+      + "transactions, timestamp) values ('" + eosNO.blockchainTicker + "', '"
+      + eosNO.blockNumber + "', '" + eosNO.transactions + "', '" + eosNO.timestamp + "');";
+    service.persist(eosNO, selectQuery, insertQuery);
 }
 
 function getData() {
@@ -30,7 +30,7 @@ function getData() {
     if (err) {
       return console.log("error: " + err.message);
     }
-    var query = "select max(blockNumber) from doge_network;";
+    var query = "select max(blockNumber) from eos_network;";
     connection.query(query, function(err, result, fields) {
       if (err) throw err;
       var maxBlockInDb = parseInt(service.getBlockNumberFromRowDataPacket(result));
@@ -58,7 +58,7 @@ function callApi(maxBlockInDb) {
 }
 function callApiForBlocks(maxBlockInDb, blockHeight) {
   axios
-    .get("https://dogechain.info/api/v1/block/" + blockHeight)
+    .get("https://api.eospark.com/api?module=block&action=get_latest_block&apikey=" + apiKey)
     .then(response => {
         processBlock(response.data);
     })
