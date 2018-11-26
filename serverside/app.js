@@ -16,6 +16,9 @@ var interval = setInterval(function(){
 	//chainSoCaller.getData();
 	//bitinfochartsCaller.getData();
 
+	// vechain is no longer active
+	//vechainCaller.getData();
+
 	blockchairCaller.getData();
 	trxCaller.getData();
 	dogechainCaller.getData();
@@ -23,7 +26,6 @@ var interval = setInterval(function(){
 	rippleCaller.getData();
 	minergateCaller.getData();
 	coinerexplorerCaller.getData();
-	vechainCaller.getData();
 	//TODO coinmetricsCaller only needs to be called every 12 hours as the data is from the last 24 hours
 	coinmetricsCaller.getData();
 }, 5000);

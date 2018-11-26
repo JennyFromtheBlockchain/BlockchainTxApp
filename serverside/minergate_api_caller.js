@@ -1,6 +1,7 @@
 const service = require('./service.js');
 const network_obj = require('./network_object');
 const axios = require("axios");
+//https://github.com/MinerGate/minergate-api
 const minergateUrl = "https://api.minergate.com/1.0/<ticker>/status";
 const tickers = ["xmr"];//,["bch", "eth", "ltc"];
 
@@ -35,10 +36,6 @@ function callApi(ticker) {
 
 module.exports = {
   getData: function() {
-      //https://github.com/MinerGate/minergate-api
     tickers.forEach(t => callApi(t));
-    // callApi("https://api.blockchair.com/bitcoin-cash/blocks", "bch");
-    // callApi("https://api.blockchair.com/ethereum/blocks", "eth");
-    // callApi("https://api.blockchair.com/litecoin/blocks", "ltc");
   }
 };

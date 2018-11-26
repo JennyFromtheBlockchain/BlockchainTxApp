@@ -16,4 +16,4 @@ data:
         result: [],
         error: 'Too many requests. Slow down your queries.' } } }
 
-4) vechain api isn't retrieiving new blocks, likely not active anymore. Add vechain
+4) vechain api isn't retrieiving new blocks, likely not active anymore. Add vechain (from messari.io?)

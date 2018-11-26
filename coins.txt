@@ -1,0 +1,32 @@
+"ticker", "coinName", "apiUrl", "blockHeightApiUrl"
+
+
+xrp, ripple, "https://data.ripple.com/v2/stats/?start=<startTime>&end=<endTime>&interval=<txInterval>", null
+
+doge, dogecoin, "https://dogechain.info/api/v1/block/<blockHeight>", "https://dogechain.info/chain/Dogecoin/q/getblockcount"
+
+"btc", "bitcoin", "https://api.blockchair.com/<ticker>/blocks", null
+"bch", "bitcoin-cash", "https://api.blockchair.com/<ticker>/blocks", null
+"eth", "ethereum", "https://api.blockchair.com/<ticker>/blocks", null
+"ltc", "litecoin", "https://api.blockchair.com/<ticker>/blocks", null
+
+"dash", "dash", "https://www.coinexplorer.net/api/v1/<ticker>/block/latest", null
+"vtc", "vertcoin", "https://www.coinexplorer.net/api/v1/<ticker>/block/latest", null
+"piv", "pivx", "https://www.coinexplorer.net/api/v1/<ticker>/block/latest", null
+
+"zec", "zchain", "https://api.zcha.in/v2/mainnet/blocks?sort=height&direction=descending&limit=20&offset=0", null
+
+"xmr", "monero", "https://api.minergate.com/1.0/<ticker>/status", null
+
+
+https://coinmetrics.io/api/v1/get_asset_data_for_time_range/<ticker>/txcount/<maxTimeStampInDb>/<curTime>;
+const tickers = ["ae", "dcr", "xem", "xvg", "dgb", "btg", "ada", "lsk", "neo", "gas", "eos", "waves", "maid",
+  "aion", "ant", "bat", "bnb", "btm", "cennz", "ctxc", "cvc", "drgn", "elf", "eng", "ethos", "fun", "gno",
+  "gnt", "icn", "icx", "kcs", "knc", "loom", "lrc", "mana", "mtl", "nas", "omg", "pay", "poly", "powr", "ppt",
+  "qash", "rep", "rhoc", "salt", "snt", "srn", "ven", "veri", "wtc", "zil", "zrx"];
+
+
+"trx", "Tron", "https://api.trongrid.io/wallet/getblockbylimitnext", "https://api.trongrid.io/wallet/getnowblock"  params: {
+        startNum: maxBlockInDb,
+        endNum: blockHeight
+      }
