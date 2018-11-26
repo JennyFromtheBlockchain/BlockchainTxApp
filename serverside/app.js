@@ -12,6 +12,8 @@ var coinerexplorerCaller = require('./coinexplorer_api_caller.js');
 var vechainCaller = require('./vechain_api_caller.js');
 var coinmetricsCaller = require('./coinmetrics_api_caller.js');
 
+var service = require('./service.js');
+
 var interval = setInterval(function(){
 	//chainSoCaller.getData();
 	//bitinfochartsCaller.getData();
@@ -19,13 +21,14 @@ var interval = setInterval(function(){
 	// vechain is no longer active
 	//vechainCaller.getData();
 
-	blockchairCaller.getData();
-	trxCaller.getData();
-	dogechainCaller.getData();
-	zchainCaller.getData();
-	rippleCaller.getData();
-	minergateCaller.getData();
-	coinerexplorerCaller.getData();
-	//TODO coinmetricsCaller only needs to be called every 12 hours as the data is from the last 24 hours
-	coinmetricsCaller.getData();
+	// blockchairCaller.getData();
+	// trxCaller.getData();
+	// dogechainCaller.getData();
+	// zchainCaller.getData();
+	// rippleCaller.getData();
+	// minergateCaller.getData();
+	// coinerexplorerCaller.getData();
+	// //TODO coinmetricsCaller only needs to be called every 12 hours as the data is from the last 24 hours
+	// coinmetricsCaller.getData();
+	service.updateBlockchainData();
 }, 5000);

@@ -12,24 +12,6 @@ class xrp_network_obj {
   }
 };
 
-function processData(blockData) {
-    var date = new Date(blockData.date);
-    var time = Math.floor(parseInt(date.getTime()) / 1000);
-    var xrpNO = new xrp_network_obj(
-      "xrp",
-      blockData.metric.transaction_count,
-      time
-    );
-    var selectQuery = "select * from xrp_network where timestamp=" + xrpNO.timestamp
-      + " and txInterval='" + txInterval + "';";
-    var insertQuery = "insert ignore into xrp_network(blockchainTicker, txInterval, " 
-      + "transactions, timestamp) values ('" + xrpNO.blockchainTicker + "', '"
-      + xrpNO.txInterval + "', '" + xrpNO.transactions + "', '" + xrpNO.timestamp + "');";
-    var updateQuery = "update xrp_network set transactions=" + xrpNO.transactions
-      + " where txInterval='" + txInterval + "' and timestamp=" + xrpNO.timestamp + ";";
-    service.persist(xrpNO, selectQuery, insertQuery, updateQuery);
-  }
-
 function getData() {
   var query = "select max(timestamp) from xrp_network where txInterval='" + txInterval + "';";
   db.query(query, function(err, result, fields) {
@@ -52,6 +34,25 @@ function callApiForData(startTime, endTime) {
       console.log(error);
     });
 }
+
+function processData(blockData) {
+  var date = new Date(blockData.date);
+  var time = Math.floor(parseInt(date.getTime()) / 1000);
+  var xrpNO = new xrp_network_obj(
+    "xrp",
+    blockData.metric.transaction_count,
+    time
+  );
+  var selectQuery = "select * from xrp_network where timestamp=" + xrpNO.timestamp
+    + " and txInterval='" + txInterval + "';";
+  var insertQuery = "insert ignore into xrp_network(blockchainTicker, txInterval, " 
+    + "transactions, timestamp) values ('" + xrpNO.blockchainTicker + "', '"
+    + xrpNO.txInterval + "', '" + xrpNO.transactions + "', '" + xrpNO.timestamp + "');";
+  var updateQuery = "update xrp_network set transactions=" + xrpNO.transactions
+    + " where txInterval='" + txInterval + "' and timestamp=" + xrpNO.timestamp + ";";
+  service.persist(xrpNO, selectQuery, insertQuery, updateQuery);
+}
+
 module.exports = {
     getData: function() {
       getData();

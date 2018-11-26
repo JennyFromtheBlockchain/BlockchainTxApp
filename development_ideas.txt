@@ -17,3 +17,4 @@ data:
         error: 'Too many requests. Slow down your queries.' } } }
 
 4) vechain api isn't retrieiving new blocks, likely not active anymore. Add vechain (from messari.io?)
+5) i should only need one call to the db to insert something, figure out how to insert and ignore if already exists
