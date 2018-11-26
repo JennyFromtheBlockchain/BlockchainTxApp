@@ -1,6 +1,8 @@
 const service = require('./service.js');
 const network_obj = require('./network_object');
 const axios = require("axios");
+const blockChairUrl = "https://api.blockchair.com/<ticker>/blocks";
+const coins = [ ["btc", "bitcoin"], ["bch", "bitcoin-cash"], ["eth", "ethereum"], ["ltc", "litecoin"]];
 
 function processBlock(blockData, ticker) {
   var date = new Date(blockData.time);
@@ -30,12 +32,8 @@ function callApi(url, ticker) {
       console.log(error);
     });
 }
-
 module.exports = {
   getData: function() {
-    callApi("https://api.blockchair.com/bitcoin/blocks", "btc");
-    callApi("https://api.blockchair.com/bitcoin-cash/blocks", "bch");
-    callApi("https://api.blockchair.com/ethereum/blocks", "eth");
-    callApi("https://api.blockchair.com/litecoin/blocks", "ltc");
+    coins.forEach(c => callApi(blockChairUrl.replace("<ticker>", c[1]), c[0]))
   }
 };

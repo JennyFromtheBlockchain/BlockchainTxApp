@@ -1,6 +1,8 @@
 const service = require('./service.js');
 const network_obj = require('./network_object');
 const axios = require("axios");
+const minergateUrl = "https://api.minergate.com/1.0/<ticker>/status";
+const tickers = ["xmr"];//,["bch", "eth", "ltc"];
 
 function processBlock(blockData, ticker) {
   var date = new Date(blockData.time);
@@ -17,9 +19,9 @@ function processBlock(blockData, ticker) {
   service.persist(nO, selectQuery, insertQuery);
 }
 
-function callApi(url, ticker) {
+function callApi(ticker) {
   axios
-    .get(url)
+    .get(minergateUrl.replace("<ticker>", ticker))
     .then(response => {
       //console.log(Object.getOwnPropertyNames(response));
       //for (var i = 0; i < response.data.data.length; i++) {
@@ -34,7 +36,7 @@ function callApi(url, ticker) {
 module.exports = {
   getData: function() {
       //https://github.com/MinerGate/minergate-api
-    callApi("https://api.minergate.com/1.0/xmr/status", "xmr");
+    tickers.forEach(t => callApi(t));
     // callApi("https://api.blockchair.com/bitcoin-cash/blocks", "bch");
     // callApi("https://api.blockchair.com/ethereum/blocks", "eth");
     // callApi("https://api.blockchair.com/litecoin/blocks", "ltc");

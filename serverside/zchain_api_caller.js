@@ -1,15 +1,8 @@
 const service = require('./service.js');
 const network_obj = require('./network_object');
-const mysql = require("mysql");
 const axios = require("axios");
+const db = require("./db.js");
 const blocksPerCall = 20;
-const pool = mysql.createPool({
-  connectionLimit: 5,
-  host: "localhost",
-  user: "root",
-  //password: "password",
-  database: "transactions"
-});
 
 function processBlock(blockData) {
     var date = new Date(blockData.timestamp);
@@ -27,17 +20,11 @@ function processBlock(blockData) {
   }
 
 function getData() {
-  pool.getConnection(function(err, connection) {
-    if (err) {
-      return console.log("error: " + err.message);
-    }
-    var query = "select max(blockNumber) from zec_network;";
-    connection.query(query, function(err, result, fields) {
-      if (err) throw err;
-      var maxBlockInDb = parseInt(service.getBlockNumberFromRowDataPacket(result));
-      callApiForBlocks(maxBlockInDb);
-    });
-    connection.release();
+  var query = "select max(blockNumber) from zec_network;";
+  db.query(query, function(err, result, fields) {
+    if (err) throw err;
+    var maxBlockInDb = parseInt(service.getBlockNumberFromRowDataPacket(result));
+    callApiForBlocks(maxBlockInDb);
   });
 }
 function callApiForBlocks(maxBlockInDb) {

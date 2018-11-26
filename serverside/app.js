@@ -1,5 +1,5 @@
 //Transactions graph - https://neodepot.org/charts/transactions-count-date
-//Verge - https://verge-blockchain.info/info
+//                      Verge - https://verge-blockchain.info/info
 var bitinfochartsCaller = require('./bitinfocharts_api_caller.js');
 var chainSoCaller = require('./chain_so_api_caller.js');
 var blockchairCaller = require('./blockchair_api_caller.js');
@@ -24,6 +24,6 @@ var interval = setInterval(function(){
 	minergateCaller.getData();
 	coinerexplorerCaller.getData();
 	vechainCaller.getData();
-	//TODO coinmetricsCaller only needs to be called every 12 hours
+	//TODO coinmetricsCaller only needs to be called every 12 hours as the data is from the last 24 hours
 	coinmetricsCaller.getData();
 }, 5000);

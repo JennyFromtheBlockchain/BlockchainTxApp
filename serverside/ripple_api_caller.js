@@ -1,23 +1,16 @@
 const service = require('./service.js');
-const mysql = require("mysql");
+const db = require("./db.js");
 const axios = require("axios");
 const txInterval = 'hour';
-const pool = mysql.createPool({
-  connectionLimit: 5,
-  host: "localhost",
-  user: "root",
-  //password: "password",
-  database: "transactions"
-});
 
 class xrp_network_obj {
-    constructor(blockchainTicker, transactions, timestamp) {
-      this.blockchainTicker = blockchainTicker;
-      this.txInterval = txInterval;
-      this.transactions = transactions;
-      this.timestamp = timestamp;
-    }
-  };
+  constructor(blockchainTicker, transactions, timestamp) {
+    this.blockchainTicker = blockchainTicker;
+    this.txInterval = txInterval;
+    this.transactions = transactions;
+    this.timestamp = timestamp;
+  }
+};
 
 function processData(blockData) {
     var date = new Date(blockData.date);
@@ -38,19 +31,13 @@ function processData(blockData) {
   }
 
 function getData() {
-  pool.getConnection(function(err, connection) {
-    if (err) {
-      return console.log("error: " + err.message);
-    }
-    var query = "select max(timestamp) from xrp_network where txInterval='" + txInterval + "';";
-    connection.query(query, function(err, result, fields) {
-      if (err) throw err;
-      var maxTimestamp = parseInt(service.getBlockNumberFromRowDataPacket(result, "timestamp"));
-      var curTimestamp = Math.floor(Date.now() / 1000);
-      maxTimestamp = maxTimestamp == -1 ? curTimestamp - 3601 : maxTimestamp;
-      callApiForData(maxTimestamp, curTimestamp);
-    });
-    connection.release();
+  var query = "select max(timestamp) from xrp_network where txInterval='" + txInterval + "';";
+  db.query(query, function(err, result, fields) {
+    if (err) throw err;
+    var maxTimestamp = parseInt(service.getBlockNumberFromRowDataPacket(result, "timestamp"));
+    var curTimestamp = Math.floor(Date.now() / 1000);
+    maxTimestamp = maxTimestamp == -1 ? curTimestamp - 3601 : maxTimestamp;
+    callApiForData(maxTimestamp, curTimestamp);
   });
 }
 function callApiForData(startTime, endTime) {
@@ -67,7 +54,6 @@ function callApiForData(startTime, endTime) {
 }
 module.exports = {
     getData: function() {
-      //msleep(500);
       getData();
     }
 };

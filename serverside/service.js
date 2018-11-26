@@ -1,30 +1,23 @@
-const mysql = require("mysql");
-const pool = mysql.createPool({
-  connectionLimit: 5,
-  host: "localhost",
-  user: "root",
-  //password: "password",
-  database: "transactions"
-});
+const db = require("./db.js");
 
-function updateOrInsert(connection, query) {
-    connection.query(query, function(err, result, fields) {
+function updateOrInsert(query) {
+    db.query(query, function(err, result, fields) {
         if (err) throw err;
         console.log(result);
     });
 }
 
-function checkIfExists(connection, selectQuery, insertQuery, updateQuery) {
-    connection.query(selectQuery, function(err, result, fields) {
+function checkIfExists(selectQuery, insertQuery, updateQuery) {
+    db.query(selectQuery, function(err, result, fields) {
         if (err) throw err;
         if (result.length == 0) {
           console.log(insertQuery);
-          updateOrInsert(connection, insertQuery);
+          updateOrInsert(insertQuery);
         } else if(updateQuery != null) {
           console.log(updateQuery);
-          updateOrInsert(connection, updateQuery);
+          updateOrInsert(updateQuery);
         }
-      });
+    });
 }
 
 module.exports = {
@@ -32,13 +25,7 @@ module.exports = {
         this.persist(network_obj, selectQuery, insertQuery, null);
     },
     persist: function(network_obj, selectQuery, insertQuery, updateQuery) {
-        pool.getConnection(function(err, connection) {
-            if (err) {
-              return console.log("error: " + err.message);
-            }
-            checkIfExists(connection, selectQuery, insertQuery, updateQuery);
-            connection.release();
-        });
+        checkIfExists(selectQuery, insertQuery, updateQuery);
     },
     getBlockNumberFromRowDataPacket: function(packet, field) {
         packet = JSON.stringify(packet[0]);

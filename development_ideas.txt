@@ -1,0 +1,19 @@
+Ideas
+1) Filter out transactions which are merely there to inflate the tx rate of certain coins (e.g. trx) - Get tx which type is payment?
+
+Bugs
+1) Dogechain sometimes doesn't have the data for the next block, so returns an error. Deal with this error and try next block 
+(if it's likely to have been mined) - example https://dogechain.info/api/v1/block/2490273
+Respons object: 
+data:
+      { error: "undefined method `+' for nil:NilClass", success: 0 } } }
+
+2) The app needs to ensure that if the last row in the database is not the block before the latest, it will go and get all from that last
+block in the db to the latest (within reason) - this happens in minergate_api_caller.js with xmr
+3) Deal with error from coinexplorer
+data:
+      { success: false,
+        result: [],
+        error: 'Too many requests. Slow down your queries.' } } }
+
+4) vechain api isn't retrieiving new blocks, likely not active anymore. Add vechain

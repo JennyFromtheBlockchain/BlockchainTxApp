@@ -1,13 +1,6 @@
 const service = require('./service.js');
 const axios = require("axios");
-const mysql = require("mysql");
-const pool = mysql.createPool({
-    connectionLimit: 5,
-    host: "localhost",
-    user: "root",
-    //password: "password",
-    database: "transactions"
-  });
+const db = require("./db.js");
 class network_obj {
     constructor(blockchainTicker, transactions, timestamp) {
       this.blockchainTicker = blockchainTicker;
@@ -36,26 +29,20 @@ function processBlock(blockData, ticker) {
 }
 
 function getData(ticker) {
-    pool.getConnection(function(err, connection) {
-      if (err) {
-        return console.log("error: " + err.message);
-      }
-      var query = "select max(timestamp) from " + ticker + "_network;";
-      connection.query(query, function(err, result, fields) {
-        if (err) throw err;
-        var maxTimeStampInDb = parseInt(service.getBlockNumberFromRowDataPacket(result, "timestamp"));
-        var curTime = Math.floor(new Date().getTime() / 1000);
-        // If no records in db, get data from api from last 30 days
-        maxTimeStampInDb = maxTimeStampInDb == -1 ? curTime - (30 * dayInSec) : maxTimeStampInDb + 1;
+  var query = "select max(timestamp) from " + ticker + "_network;";
+  db.query(query, function(err, result, fields) {
+    if (err) throw err;
+    var maxTimeStampInDb = parseInt(service.getBlockNumberFromRowDataPacket(result, "timestamp"));
+    var curTime = Math.floor(new Date().getTime() / 1000);
+    // If no records in db, get data from api from last 30 days
+    maxTimeStampInDb = maxTimeStampInDb == -1 ? curTime - (30 * dayInSec) : maxTimeStampInDb + 1;
 
-        if(maxTimeStampInDb + (2 * dayInSec) < curTime) {
-            var url = "https://coinmetrics.io/api/v1/get_asset_data_for_time_range/" + ticker + "/txcount/"
-                  + maxTimeStampInDb + "/" + curTime;
-            callApi(url, ticker);
-        }
-      });
-      connection.release();
-    });
+    if(maxTimeStampInDb + (2 * dayInSec) < curTime) {
+        var url = "https://coinmetrics.io/api/v1/get_asset_data_for_time_range/" + ticker + "/txcount/"
+              + maxTimeStampInDb + "/" + curTime;
+        callApi(url, ticker);
+    }
+  });
 }
 
 function callApi(url, ticker) {
@@ -74,8 +61,6 @@ function callApi(url, ticker) {
 
 module.exports = {
   getData: function() {
-      for(var i = 0; i < tickers.length; i++) {
-        getData(tickers[i]);
-      }
+    tickers.forEach(t => getData(t));
   }
 };

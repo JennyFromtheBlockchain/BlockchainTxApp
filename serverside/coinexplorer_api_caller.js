@@ -1,6 +1,8 @@
 const service = require('./service.js');
 const network_obj = require('./network_object');
 const axios = require("axios");
+const tickers = ["dash", "vtc", "piv"];//,["ltc"];
+const coinexplorerUrl = "https://www.coinexplorer.net/api/v1/<ticker>/block/latest";
 
 function processBlock(blockData, ticker) {
   var date = new Date(blockData.result.time);
@@ -17,9 +19,9 @@ function processBlock(blockData, ticker) {
   service.persist(nO, selectQuery, insertQuery);
 }
 
-function callApi(url, ticker) {
+function callApi(ticker) {
   axios
-    .get(url)
+    .get(coinexplorerUrl.replace("<ticker>", ticker))
     .then(response => {
         processBlock(response.data, ticker);
     })
@@ -30,9 +32,7 @@ function callApi(url, ticker) {
 
 module.exports = {
   getData: function() {
-    callApi("https://www.coinexplorer.net/api/v1/DASH/block/latest", "dash");
-    callApi("https://www.coinexplorer.net/api/v1/VTC/block/latest", "vtc");
-    callApi("https://www.coinexplorer.net/api/v1/PIV/block/latest", "piv");
-    // callApi("https://api.blockchair.com/litecoin/blocks", "ltc");
+    tickers.forEach(t => callApi(t));
+    callApi("dash");
   }
 };
