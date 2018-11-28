@@ -1,4 +1,4 @@
-const db = require("./db.js");
+const db = require("../db.js");
 const axios = require("axios");
 const network_obj = require('./network_object');
 const txInterval_network_obj = require("./txInterval_network_object.js");
@@ -227,7 +227,6 @@ function getTronParams(maxBlockInDb, blockHeight) {
 //
 // -------- End -----------
 //
-
 
 //
 // -------- Generic functions -----------
