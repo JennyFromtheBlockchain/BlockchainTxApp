@@ -1,6 +1,10 @@
 Ideas
 1) Filter out transactions which are merely there to inflate the tx rate of certain coins (e.g. trx) - Get tx which type is payment?
-
+2) Should the app get all of the blcoks/transactions since the last block in db, as if it goes down, there could be hours of data missing
+      or should the app always just get the latest? If we get all data, then how? Do we call each api repeatedly for the data
+      (getting the next 20 blcoks, when we can for exampe)? This will take soem time and mean other coins are getting further out of
+      date, or should it start a seperate thread as soon as it discovers a blockchains data is more than 1 block out of date?
+3) Schedule when to call each api - e.g. coinmetricsCaller only needs to be called every 12 hours as the data is from the last 24 hours
 Bugs
 1) Dogechain sometimes doesn't have the data for the next block, so returns an error. Deal with this error and try next block 
 (if it's likely to have been mined) - example https://dogechain.info/api/v1/block/2490273
