@@ -7,4 +7,4 @@ class txInterval_network_obj {
   }
 };
 
-module.exports = xrp_network_obj;
+module.exports = txInterval_network_obj;

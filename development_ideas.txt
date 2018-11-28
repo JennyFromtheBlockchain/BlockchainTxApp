@@ -5,6 +5,8 @@ Ideas
       (getting the next 20 blcoks, when we can for exampe)? This will take soem time and mean other coins are getting further out of
       date, or should it start a seperate thread as soon as it discovers a blockchains data is more than 1 block out of date?
 3) Schedule when to call each api - e.g. coinmetricsCaller only needs to be called every 12 hours as the data is from the last 24 hours
+4) Think about the coins table regarding a redesignn. Instead of coin ->* apiUrl, might be better to do apiUrl ->* coins... need further investigation
+
 Bugs
 1) Dogechain sometimes doesn't have the data for the next block, so returns an error. Deal with this error and try next block 
 (if it's likely to have been mined) - example https://dogechain.info/api/v1/block/2490273

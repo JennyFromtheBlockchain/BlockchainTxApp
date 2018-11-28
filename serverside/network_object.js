@@ -6,4 +6,5 @@ class network_obj {
     this.timestamp = timestamp;
   }
 };
+
 module.exports = network_obj;
