@@ -13,27 +13,34 @@ const txIntervalSelectQueryTemplate = "select * from <blockchainTicker>_network 
     + "and txInterval='<txInterval>';";
 const txIntervalInsertQueryTemplate = "insert ignore into <blockchainTicker>_network(blockchainTicker, txInterval, "
     + "transactions, timestamp) values ('<blockchainTicker>', '<txInterval>', <transactions>, <timestamp>);";
+var apiRequestWait = new Map();
 
 function createSelectQuery(nO) {
     return selectQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
         .replace("<blockNumber>", nO.blockNumber);
 }
+
 function createInsertQuery(nO) {
     return insertQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
         .replace("<blockchainTicker>", nO.blockchainTicker)
         .replace("<blockNumber>", nO.blockNumber).replace("<transactions>", nO.transactions)
         .replace("<timestamp>", nO.timestamp);
 }
+
 function createTxIntervalSelectQuery(nO) {
     return txIntervalSelectQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
         .replace("<timestamp>", nO.timestamp).replace("<txInterval>", nO.txInterval);
 }
+
 function createTxIntervalInsertQuery(nO) {
     return txIntervalInsertQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
         .replace("<blockchainTicker>", nO.blockchainTicker).replace("<txInterval>", nO.txInterval)
-    .   replace("<transactions>", nO.transactions).replace("<timestamp>", nO.timestamp);
+        .replace("<transactions>", nO.transactions).replace("<timestamp>", nO.timestamp);
 }
 
+//
+// -------- Process response functions -----------
+//
 function processMinerGateResponse(response, ticker) {
     var nO = new network_obj(
         ticker,
@@ -102,18 +109,15 @@ function processCoinMetricsResponse(response, ticker) {
     });
 }
 
-function getCoinmetricsData(blockchainObj) {
-    var query = "select max(timestamp) from " + blockchainObj.ticker + "_network;";
-    db.query(query, function(err, result, fields) {
-      if (err) throw err;
-      var maxTimeStampInDb = parseInt(getBlockNumberFromRowDataPacket(result, "timestamp"));
-      var curTime = Math.floor(new Date().getTime() / 1000);
-      // If no records in db, get data from api from last 30 days
-      maxTimeStampInDb = maxTimeStampInDb == -1 ? curTime - (30 * dayInSec) : maxTimeStampInDb + 1;
-      if(maxTimeStampInDb + (2 * dayInSec) < curTime) {
-          var url = blockchainObj.apiUrl.replace("<startTime>", maxTimeStampInDb).replace("<endTime>", curTime);
-          callApi(url, blockchainObj.ticker, processCoinMetricsResponse);
-      }
+function processTrongridResponse(response, ticker) {
+    response.data.block.forEach(data => {
+        var nO = new network_obj(
+            ticker,
+            data.block_header.raw_data.number,
+            data.transactions.length,
+            data.block_header.raw_data.timestamp
+        );
+        persist(createSelectQuery(nO), createInsertQuery(nO));
     });
 }
 
@@ -130,6 +134,28 @@ function processRippleResponse(response) {
         var updateQuery = "update xrp_network set transactions=" + nO.transactions + " where txInterval='"
             + xrpTxInterval + "' and timestamp=" + nO.timestamp + ";";
         persist(createTxIntervalSelectQuery(nO), createTxIntervalInsertQuery(nO), updateQuery);
+    });
+}
+//
+// -------- End -----------
+//
+
+//
+// -------- Functions dealing with complex apis -----------
+//
+
+function getCoinmetricsData(blockchainObj) {
+    var query = "select max(timestamp) from " + blockchainObj.ticker + "_network;";
+    db.query(query, function(err, result, fields) {
+      if (err) throw err;
+      var maxTimeStampInDb = parseInt(getBlockNumberFromRowDataPacket(result, "timestamp"));
+      var curTime = Math.floor(new Date().getTime() / 1000);
+      // If no records in db, get data from api from last 30 days
+      maxTimeStampInDb = maxTimeStampInDb == -1 ? curTime - (30 * dayInSec) : maxTimeStampInDb + 1;
+      if(maxTimeStampInDb + (2 * dayInSec) < curTime) {
+          var url = blockchainObj.apiUrl.replace("<startTime>", maxTimeStampInDb).replace("<endTime>", curTime);
+          callApi(url, blockchainObj.ticker, processCoinMetricsResponse);
+      }
     });
 }
 
@@ -156,7 +182,7 @@ function getDogeData(blockchainObj) {
 
 function callDogeApi(blockchainObj, maxBlockInDb) {
     axios
-    .get(blockchainObj.blockHeightApiUrl.replace("<blockHeight>", ))
+    .get(blockchainObj.blockHeightApiUrl)
     .then(response => {
         //console.log(Object.getOwnPropertyNames(response));
         var blockHeight = parseInt(response.data);
@@ -169,6 +195,43 @@ function callDogeApi(blockchainObj, maxBlockInDb) {
     });
 }
 
+function getTrongridData(blockchainObj) {
+    var query = "select max(blockNumber) from trx_network;";
+    db.query(query, function(err, result, fields) {
+      if (err) throw err;
+      var maxBlockInDb = parseInt(getBlockNumberFromRowDataPacket(result));
+      callTrongridBlockHeightApi(blockchainObj, maxBlockInDb);
+    });
+  }
+  
+function callTrongridBlockHeightApi(blockchainObj, maxBlockInDb) {
+    //console.log(Object.getOwnPropertyNames(blockchainObj));
+    axios
+    .get(blockchainObj.blockHeightApiUrl)
+    .then(response => {
+        var blockHeight = parseInt(response.data.block_header.raw_data.number) + 1;
+        maxBlockInDb = maxBlockInDb == -1 ? blockHeight - 30 : maxBlockInDb;
+        blockHeight = maxBlockInDb + 30 < blockHeight ? maxBlockInDb + 30 : blockHeight;
+        callApi(blockchainObj.apiUrl, "trx", processTrongridResponse, getTronParams(maxBlockInDb, blockHeight));
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+function getTronParams(maxBlockInDb, blockHeight) {
+    return {params: {
+        startNum: maxBlockInDb,
+        endNum: blockHeight
+    }};
+}
+//
+// -------- End -----------
+//
+
+
+//
+// -------- Generic functions -----------
+//
 function getBlockNumberFromRowDataPacket(packet, field) {
     packet = JSON.stringify(packet[0]);
     packet = packet.replace('{"max(' + field + ')":', "");
@@ -176,14 +239,18 @@ function getBlockNumberFromRowDataPacket(packet, field) {
     if (isNaN(packet)) return -1;
     return packet;
 }
-  
-function callApi(url, ticker, processResponseFunction) {
+
+function callApi(url, ticker, processResponseFunction, params) {
+    params = undefined ? null : params;
     axios
-    .get(url)
+    .get(url, params)
     .then(response => {
         processResponseFunction(response, ticker);
     }).catch(error => {
-        console.log(error);
+        // if(error.data.error == 'Too many requests. Slow down your queries.') {
+        //     apiRequestWait.set(response., new Date().getTime());
+        // }
+         console.log(error);
     });
 }
 
@@ -215,8 +282,11 @@ function updateOrInsert(query) {
         console.log(result);
     });
 }
+//
+// -------- End -----------
+//
 
-function createUrl(blockchainObj) {
+function updateBlockchainData(blockchainObj) {
     switch(blockchainObj.apiName) {
         case "blockchair":
             callApi(blockchainObj.apiUrl, blockchainObj.ticker, processBlockChairResponse);
@@ -233,8 +303,9 @@ function createUrl(blockchainObj) {
         case "minergate":
             callApi(blockchainObj.apiUrl, blockchainObj.ticker, processMinerGateResponse);
             break;
-        //TODO case "tron":
-        //    break;
+        case "trongrid":
+            getTrongridData(blockchainObj);
+            break;
         case "ripple":
             getRippleResponse(blockchainObj);
             break;
@@ -247,15 +318,11 @@ function createUrl(blockchainObj) {
     }
 }
 
-function msleep(n) {
-    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, n);
-}
-
 module.exports = {
     updateBlockchainData: function() {
         db.query("select * from blockchains;", function(err, result, fields) {
             if (err) throw err;
-            result.forEach(r => createUrl(r));
+            result.forEach(r => updateBlockchainData(r));
         });
     }
 };
