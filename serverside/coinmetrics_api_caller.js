@@ -13,7 +13,7 @@ class network_obj {
 const tickers = ["ae", "dcr", "xem", "xvg", "dgb", "btg", "ada", "lsk", "neo", "gas", "eos", "waves", "maid",
   "aion", "ant", "bat", "bnb", "btm", "cennz", "ctxc", "cvc", "drgn", "elf", "eng", "ethos", "fun", "gno",
   "gnt", "icn", "icx", "kcs", "knc", "loom", "lrc", "mana", "mtl", "nas", "omg", "pay", "poly", "powr", "ppt",
-  "qash", "rep", "rhoc", "salt", "snt", "srn", "ven", "veri", "wtc", "zil", "zrx"];
+  "qash", "rep", "rhoc", "salt", "snt", "srn", "veri", "wtc", "zil", "zrx"];
 const dayInSec = 86400;
 function processBlock(blockData, ticker) {
   var date = new Date(blockData.timestamp);

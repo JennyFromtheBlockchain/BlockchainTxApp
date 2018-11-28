@@ -110,10 +110,8 @@ function getCoinmetricsData(blockchainObj) {
       var curTime = Math.floor(new Date().getTime() / 1000);
       // If no records in db, get data from api from last 30 days
       maxTimeStampInDb = maxTimeStampInDb == -1 ? curTime - (30 * dayInSec) : maxTimeStampInDb + 1;
-  
       if(maxTimeStampInDb + (2 * dayInSec) < curTime) {
-          var url = "https://coinmetrics.io/api/v1/get_asset_data_for_time_range/" + blockchainObj.ticker + "/txcount/"
-                + maxTimeStampInDb + "/" + curTime;
+          var url = blockchainObj.apiUrl.replace("<startTime>", maxTimeStampInDb).replace("<endTime>", curTime);
           callApi(url, blockchainObj.ticker, processCoinMetricsResponse);
       }
     });
@@ -188,9 +186,11 @@ function callApi(url, ticker, processResponseFunction) {
         console.log(error);
     });
 }
+
 function persist(selectQuery, insertQuery) {
     this.persist(selectQuery, insertQuery, null);
 }
+
 function persist(selectQuery, insertQuery, updateQuery) {
     checkIfExists(selectQuery, insertQuery, updateQuery);
 }
@@ -208,6 +208,7 @@ function checkIfExists(selectQuery, insertQuery, updateQuery) {
         }
     });
 }
+
 function updateOrInsert(query) {
     db.query(query, function(err, result, fields) {
         if (err) throw err;
@@ -253,7 +254,6 @@ module.exports = {
         db.query("select * from blockchains;", function(err, result, fields) {
             if (err) throw err;
             result.forEach(r => createUrl(r));
-            createUrl(result[0]);
         });
     }
 };
