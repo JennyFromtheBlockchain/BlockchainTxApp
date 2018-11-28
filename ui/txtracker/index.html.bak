@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Crypto TX Tracker</title>
+        <link rel="shortcut icon" href="assets/img/favicon.png">
+        <!-- Google fonts css -->
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo:400,700,800" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> 
+        <!-- Global css -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/bootsnav.min.css" rel="stylesheet">
+        <link href="assets/css/owl.carousel.min.css" rel="stylesheet">
+        <link href="assets/css/owl.theme.default.min.css" rel="stylesheet">
+        <link href="assets/css/bootstrap-select.min.css" rel="stylesheet">
+        <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="assets/css/linearicons.min.css" rel="stylesheet">
+        <link href="assets/css/animate.min.css" rel="stylesheet">
+        <link href="assets/css/magnific-popup.css" rel="stylesheet">
+        <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/responsive.bootstrap.min.css" rel="stylesheet">
+        <link href="assets/amcharts/export.css" rel="stylesheet">
+        <!-- style css -->
+        <link href="assets/css/style.css" rel="stylesheet">
+    </head>
+    <body>       
+            <!-- <div class="container">            
+                <div class="attr-nav">
+                    <ul>
+                        <li><a href="register.html" class="btn nav-btn">Login</a></li>
+                        <li><a href="register.html" class="btn nav-btn btn-orange">Sign Up</a></li>
+                    </ul>
+                </div>
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" class="logo" alt=""></a>
+                </div>               
+            </div>  -->
+     
+        <div class="about_content">
+            <div class="container">
+                <div class="row about-text justify-content">
+                    <div class="col-md-6">
+                        <div class="about-info">
+                            <h2>What is TX Tracker?</h2>
+                            <div class="definition">2019 Is The Ultimate Year For Crypto Mass Adoption
+</div>
+                            <p>The crypto market may be going through hell, but it’s no secret that much has been achieved this year. There have been lots of developments meant to boost crypto adoption. Companies like ShareRing and Tron have been doing everything to bring their native cryptos closer to the people. Check out this tool to see if you can find any crypto that has public adoption!
+
+</p>
+                            <a href="#" class="btn btn-default mr-20">Join Telegram</a>
+                            <!--<a href="#" class="btn btn-default-o mb-10">Our Service</a>-->
+                           
+                        </div>
+                    </div>
+					<div class="col-md-6">
+						<div class="pricing">
+
+                    <div class="">
+                         <div class="pricing_item">
+                <h3 class="pricing_title">Top Performers</h3>
+                <p class="pricing_sentence">Amount of transactions (TX)</p>
+												
+<div class="pricing_price">
+<span class="st-item-logo"><img src="assets/img/coin-logo/SHR.png" class="img-responsive" alt=""></span><span class="curr">SHR</span> <span class="amount">90000</span><span class="p-period">/day</span>
+</div>
+
+<div class="pricing_price">
+<span class="st-item-logo"><img src="assets/img/coin-logo/BTC.svg" class="img-responsive" alt=""></span><span class="curr">BTC</span> <span class="amount">50000</span><span class="p-period">/day</span>
+</div>                             
+
+<div class="pricing_price">
+<span class="st-item-logo"><img src="assets/img/coin-logo/tron.svg" class="img-responsive" alt=""></span><span class="curr">TRX</span> <span class="amount">20000</span><span class="p-period">/day</span>
+</div>
+
+               
+            </div>
+                    </div>
+                </div>
+					</div>
+                            
+            </div>
+        </div>
+                                    </div>
+
+        <!-- /.End of about content -->
+
+    
+        <div class="currency-table">
+            <div class="with-nav-tabs currency-tabs">
+                <div class="tab-header">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#crypto" data-toggle="tab">Crypto</a></li>
+                        <li><a href="#forex" data-toggle="tab">Dapps</a></li>
+                        <li><a href="#stocks" data-toggle="tab">Exchanges</a></li>
+                    </ul>
+                </div>
+                <div class="container">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="crypto">
+                            <table id="cryptoTable" class="table table-striped table-hover nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Ticker</th>
+                                        <th>Price</th>
+                                        <th>Market Cap</th>
+                                        <th>Activity</th>
+										<th>Average</th>
+                                        <th>Growth (24hr)</th>
+                                        <th>Graph</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/BTC.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Bitcoin</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">BTC</span></td>
+                                        <td><span class="value_price">$8,874.19</span></td>
+                                        <td><span class="value_cap">$150.36 B</span></td>
+                                        <td><span class="value_max_quantity">9999</span></td>
+										<td><span class="value_max_quantity">9999</span></td>
+                                        <td><span class="value_d1_return percent_positive">+13.08%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/ETH.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Ethereum</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">ETH</span></td>
+                                        <td><span class="value_price">$864.14</span></td>
+                                        <td><span class="value_cap">$85.68 B</span></td>
+                                        <td><span class="value_max_quantity">9999</span></td>
+                                        <td><span class="value_max_quantity">9999</span></td>
+                                        <td><span class="value_d1_return percent_positive">+6.82%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/XRP.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Ripple</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">XRP</span></td>
+                                        <td><span class="value_price">$1.06</span></td>
+                                        <td><span class="value_cap">$43.16 B</span></td>
+                                        <td><span class="value_max_quantity">9999</span></td>
+                                        <td><span class="value_max_quantity">9999</span></td>
+                                        <td><span class="value_d1_return percent_positive">+43.04%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/LTC.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Litecoin</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">LTC</span></td>
+                                        <td><span class="value_price">$145.25</span></td>
+                                        <td><span class="value_cap">$8.05 B</span></td>
+                                        <td><span class="value_max_quantity">9999</span></td>
+                                        <td><span class="value_max_quantity">9999</span></td>
+                                        <td><span class="value_d1_return percent_negative">-11.53%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#e34828" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/tron.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">TRON</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">TRX</span></td>
+                                        <td><span class="value_price">$0.04</span></td>
+                                        <td><span class="value_cap">$2.73 B</span></td>
+                                        <td><span class="value_max_quantity">9999</span></td>
+                                        <td><span class="value_max_quantity">9999</span></td>
+                                        <td><span class="value_d1_return percent_negative">-18.58%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#e34828" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/BTG.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Bitcoin Gold</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">BTG</span></td>
+                                        <td><span class="value_price">$108.07</span></td>
+                                        <td><span class="value_cap">$381,159</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_d1_return percent_positive">-12.93%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/qtum.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Qtum</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">BTG</span></td>
+                                        <td><span class="value_price">$108.07</span></td>
+                                        <td><span class="value_cap">$381,159</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_d1_return percent_negative">-12.93%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#e34828" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/stellar.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Stellar</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">XLM</span></td>
+                                        <td><span class="value_price">$0.35</span></td>
+                                        <td><span class="value_cap">$6.69 B</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_d1_return percent_positive">-13.7%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/DASH.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Dash</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">DASH</span></td>
+                                        <td><span class="value_price">$578.69</span></td>
+                                        <td><span class="value_cap">$4.55 B</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_d1_return percent_positive">-13.21%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/ETC.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Ethereum Classic</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">ETC</span></td>
+                                        <td><span class="value_price">$22.23</span></td>
+                                        <td><span class="value_cap">$2.21 B</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_d1_return percent_positive">-17.05%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/ZEC.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Zcash</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">ZEC</span></td>
+                                        <td><span class="value_price">$22.23</span></td>
+                                        <td><span class="value_cap">$2.21 B</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_d1_return percent_positive">-17.05%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/neo.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Neo</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">NEO</span></td>
+                                        <td><span class="value_price">$22.23</span></td>
+                                        <td><span class="value_cap">$2.21 B</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_max_quantity">3999</span></td>
+                                        <td><span class="value_d1_return percent_positive">-17.05%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="forex">
+                            <table id="forexTable" class="table table-striped table-hover nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Ticker</th>
+                                        <th>Bid</th>
+                                        <th>Ask</th>
+                                        <th>Spread</th>
+                                        <th>1D change</th>
+                                        <th>Graph</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/EURGBP.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">EUR/GBP</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">EURGBP</span></td>
+                                        <td><span class="value_price">0.88621</span></td>
+                                        <td><span class="value_cap">0.88649</span></td>
+                                        <td><span class="value_spread">0.032%</span></td>
+                                        <td><span class="value_d1_return percent_positive">+0.77%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="stocks">
+                            <table id="stocksTable" class="table table-striped table-hover nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Ticker</th>
+                                        <th>Price</th>
+                                        <th>Capitalization</th>
+                                        <th>Industry</th>
+                                        <th>1D change</th>
+                                        <th>Graph</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/AAPL.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Apple Inc.</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">AAPL</span></td>
+                                        <td><span class="value_price">$8,874.19</span></td>
+                                        <td><span class="value_cap">$150.36 B</span></td>
+                                        <td><span class="value_overflow">Information Technology</span></td>
+                                        <td><span class="value_d1_return percent_positive">+13.08%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/GOOG.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Alphabet Inc.</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">GOOGL</span></td>
+                                        <td><span class="value_price">$864.14</span></td>
+                                        <td><span class="value_cap">$85.68 B</span></td>
+                                        <td><span class="value_overflow">Information Technology</span></td>
+                                        <td><span class="value_d1_return percent_positive">+6.82%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/AMZN.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Amazon</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">AMZN</span></td>
+                                        <td><span class="value_price">$1.06</span></td>
+                                        <td><span class="value_cap">$43.16 B</span></td>
+                                        <td><span class="value_overflow">Consumer Discretionary</span></td>
+                                        <td><span class="value_d1_return percent_positive">+43.04%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/FB.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Facebook</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">FB</span></td>
+                                        <td><span class="value_price">$145.25</span></td>
+                                        <td><span class="value_cap">$8.05 B</span></td>
+                                        <td><span class="value_overflow">Information Technology</span></td>
+                                        <td><span class="value_d1_return percent_negative">-11.53%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#e34828" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/MSFT.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Microsoft Corporation</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">MSFT</span></td>
+                                        <td><span class="value_price">$0.04</span></td>
+                                        <td><span class="value_cap">$2.73 B</span></td>
+                                        <td><span class="value_overflow">Information Technology</span></td>
+                                        <td><span class="value_d1_return percent_negative">-18.58%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#e34828" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/BTG.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Bitcoin Gold</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">BTG</span></td>
+                                        <td><span class="value_price">$108.07</span></td>
+                                        <td><span class="value_cap">$381,159</span></td>
+                                        <td><span class="value_max_quantity">Unlimited</span></td>
+                                        <td><span class="value_d1_return percent_positive">-12.93%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/qtum.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Qtum</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">BTG</span></td>
+                                        <td><span class="value_price">$108.07</span></td>
+                                        <td><span class="value_cap">$381,159</span></td>
+                                        <td><span class="value_max_quantity">Unlimited</span></td>
+                                        <td><span class="value_d1_return percent_negative">-12.93%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#e34828" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/stellar.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Stellar</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">XLM</span></td>
+                                        <td><span class="value_price">$0.35</span></td>
+                                        <td><span class="value_cap">$6.69 B</span></td>
+                                        <td><span class="value_max_quantity">103.27 B</span></td>
+                                        <td><span class="value_d1_return percent_positive">-13.7%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/DASH.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Dash</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">DASH</span></td>
+                                        <td><span class="value_price">$578.69</span></td>
+                                        <td><span class="value_cap">$4.55 B</span></td>
+                                        <td><span class="value_max_quantity">18.9 M</span></td>
+                                        <td><span class="value_d1_return percent_positive">-13.21%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/ETC.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Ethereum Classic</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">ETC</span></td>
+                                        <td><span class="value_price">$22.23</span></td>
+                                        <td><span class="value_cap">$2.21 B</span></td>
+                                        <td><span class="value_max_quantity">Unlimited</span></td>
+                                        <td><span class="value_d1_return percent_positive">-17.05%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/ZEC.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Zcash</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">ZEC</span></td>
+                                        <td><span class="value_price">$22.23</span></td>
+                                        <td><span class="value_cap">$2.21 B</span></td>
+                                        <td><span class="value_max_quantity">140.25 M</span></td>
+                                        <td><span class="value_d1_return percent_positive">-17.05%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                    <tr data-href="price.html">
+                                        <td>
+                                            <div class="logo-name">
+                                                <div class="item-logo">
+                                                    <img src="assets/img/coin-logo/neo.svg" class="img-responsive" alt="">
+                                                </div>
+                                                <span class="item_name_value">Neo</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="value_ticker">NEO</span></td>
+                                        <td><span class="value_price">$22.23</span></td>
+                                        <td><span class="value_cap">$2.21 B</span></td>
+                                        <td><span class="value_max_quantity">140.25 M</span></td>
+                                        <td><span class="value_d1_return percent_positive">-17.05%</span></td>
+                                        <td>
+                                            <span class="value_graph"><svg viewBox="0 0 500 100" class="chart"> <polyline fill="none" stroke="#35a947" stroke-width="5" points=" 00,120 20,60 40,80 60,20 80,80 100,80 120,60 140,100 160,90 180,80 200, 110 220, 10 240, 70 260, 100 280, 100 300, 40 320, 0 340, 100 360, 100 380, 120 400, 60 420, 70 440, 80 "/> </svg></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.End of currency table -->
+   
+        <!-- jQuery -->
+        <script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootsnav.min.js"></script>
+        <script src="assets/js/owl.carousel.min.js"></script>
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/parallax-background.min.js"></script>
+        <script src="assets/js/jquery.dataTables.min.js"></script>
+        <script src="assets/js/dataTables.bootstrap.min.js"></script>
+        <script src="assets/js/dataTables.responsive.min.js"></script>
+        <script src="assets/js/responsive.bootstrap.min.js"></script>
+        <script src="assets/js/jquery.marquee.min.js"></script>
+        <script src="assets/js/particles.min.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/js/bootstrap-select.min.js"></script>
+        <script src="assets/js/app.js"></script>
+        <script src="assets/js/custom.js"></script>
+    </body>
+</html>

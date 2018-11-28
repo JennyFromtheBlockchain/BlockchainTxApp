@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
-const db = require("../db.js");
+const db = require('../db.js');
+const path = require('path');
+const indexPath = "../../../ui/txtracker/index.html";
 const selectQueryTemplate = "select * from <blockchainTicker>_network where blockNumber=<blockNumber>;";
 const selectQueryByTimeFrameTemplate = "select * from <blockchainTicker>_network where timestamp>=<startTime> and timestamp<=<endTime>;";
 
@@ -12,7 +14,8 @@ app.listen(3000, function () {
 // -------- Endpoints -----------
 //
 app.get('/', function(req, res) {
-    res.send("Shill tool 0.1!");
+    //res.send("Shill tool 0.1!");
+    res.sendFile(path.join(__dirname + indexPath));
 })
 
 app.get('/all', function(req, res) {
@@ -35,8 +38,8 @@ function getAllBlockchainsData(res) {
 }
 
 function getBlockchainData(res, blockchainTicker, startTime, endTime) {
-        var selectQuery = selectQueryByTimeFrameTemplate.replace("<blockchainTicker>", blockchainTicker).replace("<startTime>", startTime)
-            .replace("<endTime>", endTime);
+        var selectQuery = selectQueryByTimeFrameTemplate.replace("<blockchainTicker>", blockchainTicker)
+            .replace("<startTime>", startTime).replace("<endTime>", endTime);
         queryDb(selectQuery, res);
 }
 
