@@ -1,1 +1,0 @@
-https://cardanoexplorer.com/api/stats/txs

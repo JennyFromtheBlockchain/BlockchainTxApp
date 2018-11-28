@@ -233,6 +233,8 @@ function createUrl(blockchainObj) {
         case "minergate":
             callApi(blockchainObj.apiUrl, blockchainObj.ticker, processMinerGateResponse);
             break;
+        //TODO case "tron":
+        //    break;
         case "ripple":
             getRippleResponse(blockchainObj);
             break;
