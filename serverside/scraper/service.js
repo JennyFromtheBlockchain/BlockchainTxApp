@@ -1,42 +1,51 @@
 const db = require("../db.js");
 const axios = require("axios");
 const network_obj = require('./network_object');
-const txInterval_network_obj = require("./txInterval_network_object.js");
 const xrpTxInterval = 'hour';
 const coinmetricsTxInterval = 'hour';
 const zecBlocksPerCall = '20';
 const dayInSec = 86400;
-const selectQueryTemplate = "select * from <blockchainTicker>_network where blockNumber=<blockNumber>;";
-const insertQueryTemplate = "insert ignore into <blockchainTicker>_network(blockchainTicker, blockNumber, "
-    + "transactions, timestamp) values ('<blockchainTicker>', '<blockNumber>', <transactions>, '<timestamp>');";
-const txIntervalSelectQueryTemplate = "select * from <blockchainTicker>_network where timestamp=<timestamp> "
-    + "and txInterval='<txInterval>';";
-const txIntervalInsertQueryTemplate = "insert ignore into <blockchainTicker>_network(blockchainTicker, txInterval, "
-    + "transactions, timestamp) values ('<blockchainTicker>', '<txInterval>', <transactions>, <timestamp>);";
+const selectQueryTemplate = "select * from blockchain_data where blockchainTicker='<blockchainTicker>' and timestamp=<timestamp>;";
+const insertQueryTemplate = "insert ignore into blockchain_data(blockchainTicker, blockNumber, "
+    + "txInterval, transactions, timestamp) values ('<blockchainTicker>', '<blockNumber>', '<txInterval>', <transactions>, '<timestamp>');";
+// const txIntervalSelectQueryTemplate = "select * from <>_where timestamp=<timestamp> "
+//     + "and txInterval='<txInterval>';";
+// const txIntervalInsertQueryTemplate = "insert ignore into <blockchainTicker>_network(blockchainTicker, txInterval, "
+//     + "transactions, timestamp) values ('<blockchainTicker>', '<txInterval>', <transactions>, <timestamp>);";
 var apiRequestWait = new Map();
+
+function timeToEpoch(time) {
+    var epochTime = time.toString();
+    while(epochTime.length < 13) {
+        epochTime = epochTime + '0';
+    }
+    while(epochTime.length > 13) {
+        epochTime = epochTime.substring(0, epochTime.length-1);
+    }
+    return BigInt(epochTime);
+}
 
 function createSelectQuery(nO) {
     return selectQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
-        .replace("<blockNumber>", nO.blockNumber);
+        .replace("<timestamp>", nO.timestamp);
 }
 
 function createInsertQuery(nO) {
     return insertQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
-        .replace("<blockchainTicker>", nO.blockchainTicker)
-        .replace("<blockNumber>", nO.blockNumber).replace("<transactions>", nO.transactions)
-        .replace("<timestamp>", nO.timestamp);
-}
-
-function createTxIntervalSelectQuery(nO) {
-    return txIntervalSelectQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
-        .replace("<timestamp>", nO.timestamp).replace("<txInterval>", nO.txInterval);
-}
-
-function createTxIntervalInsertQuery(nO) {
-    return txIntervalInsertQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
-        .replace("<blockchainTicker>", nO.blockchainTicker).replace("<txInterval>", nO.txInterval)
+        .replace("<blockNumber>", nO.blockNumber).replace("<txInterval>", nO.txInterval)
         .replace("<transactions>", nO.transactions).replace("<timestamp>", nO.timestamp);
 }
+
+// function createTxIntervalSelectQuery(nO) {
+//     return txIntervalSelectQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
+//         .replace("<timestamp>", nO.timestamp).replace("<txInterval>", nO.txInterval);
+// }
+
+// function createTxIntervalInsertQuery(nO) {
+//     return txIntervalInsertQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
+//         .replace("<blockchainTicker>", nO.blockchainTicker).replace("<txInterval>", nO.txInterval)
+//         .replace("<transactions>", nO.transactions).replace("<timestamp>", nO.timestamp);
+// }
 
 //
 // -------- Process response functions -----------
@@ -45,8 +54,9 @@ function processMinerGateResponse(response, ticker) {
     var nO = new network_obj(
         ticker,
         response.data.height,
+        null,
         response.data.txCount,
-        response.data.timestamp
+        timeToEpoch(response.data.timestamp)
       );
       persist(createSelectQuery(nO), createInsertQuery(nO));
 }
@@ -56,8 +66,9 @@ function processCoinExplorerResponse(response, ticker) {
     var nO = new network_obj(
       ticker,
       response.data.result.height,
+      null,
       response.data.result.tx.length,
-      date.getTime()
+      timeToEpoch(date.getTime())
     );
     persist(createSelectQuery(nO), createInsertQuery(nO));
 }
@@ -68,8 +79,9 @@ function processBlockChairResponse(response, ticker) {
         var nO = new network_obj(
             ticker,
             data.id,
+            null,
             data.transaction_count,
-            date.getTime()
+            timeToEpoch(date.getTime())
         );
         persist(createSelectQuery(nO), createInsertQuery(nO));
     });
@@ -79,8 +91,9 @@ function processDogeChainResponse(response, ticker) {
     var nO = new network_obj(
       ticker,
       response.data.block.height,
+      null,
       response.data.block.num_txs,
-      response.data.block.time
+      timeToEpoch(response.data.block.time)
     );
     persist(createSelectQuery(nO), createInsertQuery(nO));
 }
@@ -90,8 +103,9 @@ function processZChainResponse(response, ticker) {
         var nO = new network_obj(
             ticker,
             data.height,
+            null,
             data.transactions,
-            data.timestamp
+            timeToEpoch(data.timestamp)
         );
         persist(createSelectQuery(nO), createInsertQuery(nO));
     });
@@ -99,13 +113,15 @@ function processZChainResponse(response, ticker) {
 
 function processCoinMetricsResponse(response, ticker) {
     response.data.result.forEach(data => {
-        var nO = new txInterval_network_obj(
+        console.log(data[1]);
+        var nO = new network_obj(
             ticker,
+            null,
             coinmetricsTxInterval,
             data[1],
-            data[0]
+            timeToEpoch(data[0])
         );
-        persist(createTxIntervalSelectQuery(nO), createTxIntervalInsertQuery(nO));
+        persist(createInsertQuery(nO), createInsertQuery(nO));
     });
 }
 
@@ -114,8 +130,9 @@ function processTrongridResponse(response, ticker) {
         var nO = new network_obj(
             ticker,
             data.block_header.raw_data.number,
+            null,
             data.transactions.length,
-            data.block_header.raw_data.timestamp
+            timeToEpoch(data.block_header.raw_data.timestamp)
         );
         persist(createSelectQuery(nO), createInsertQuery(nO));
     });
@@ -124,16 +141,16 @@ function processTrongridResponse(response, ticker) {
 function processRippleResponse(response) {
     response.data.stats.forEach(data => {
         var date = new Date(data.date);
-        var time = Math.floor(parseInt(date.getTime()) / 1000);
-        var nO = new txInterval_network_obj(
+        var nO = new network_obj(
             "xrp",
+            -1,
             xrpTxInterval, 
             data.metric.transaction_count,
-            time
+            timeToEpoch(date.getTime())
         );
-        var updateQuery = "update xrp_network set transactions=" + nO.transactions + " where txInterval='"
-            + xrpTxInterval + "' and timestamp=" + nO.timestamp + ";";
-        persist(createTxIntervalSelectQuery(nO), createTxIntervalInsertQuery(nO), updateQuery);
+        var updateQuery = "update blockchain_data set transactions=" + nO.transactions 
+            + " where blockchainTicker='xrp' and timestamp=" + nO.timestamp + ";";
+        persist(createInsertQuery(nO), createInsertQuery(nO), updateQuery);
     });
 }
 //
@@ -145,34 +162,40 @@ function processRippleResponse(response) {
 //
 
 function getCoinmetricsData(blockchainObj) {
-    var query = "select max(timestamp) from " + blockchainObj.ticker + "_network;";
+    var query = "select max(timestamp) from blockchain_data where blockchainTicker='"
+         + blockchainObj.ticker + "';";
     db.query(query, function(err, result, fields) {
       if (err) throw err;
-      var maxTimeStampInDb = parseInt(getBlockNumberFromRowDataPacket(result, "timestamp"));
-      var curTime = Math.floor(new Date().getTime() / 1000);
+      var maxTimestamp = parseInt(getBlockNumberFromRowDataPacket(result, "timestamp"));
+      maxTimestamp = Math.floor(maxTimestamp / 1000);
+      var curTime = Math.floor(Date.now() / 1000);
       // If no records in db, get data from api from last 30 days
-      maxTimeStampInDb = maxTimeStampInDb == -1 ? curTime - (30 * dayInSec) : maxTimeStampInDb + 1;
-      if(maxTimeStampInDb + (2 * dayInSec) < curTime) {
-          var url = blockchainObj.apiUrl.replace("<startTime>", maxTimeStampInDb).replace("<endTime>", curTime);
+      maxTimestamp = maxTimestamp == -1 ? curTime - (30 * dayInSec) : maxTimestamp + 1;
+      if(maxTimestamp + (2 * dayInSec) < curTime) {
+          var url = blockchainObj.apiUrl.replace("<startTime>", maxTimestamp).replace("<endTime>", curTime);
           callApi(url, blockchainObj.ticker, processCoinMetricsResponse);
       }
     });
 }
 
 function getRippleResponse(blockchainObj, ) {
-    var query = "select max(timestamp) from xrp_network where txInterval='" + xrpTxInterval + "';";
+    var query = "select max(timestamp) from blockchain_data where blockchainTicker='"
+        + blockchainObj.ticker + "' and txInterval='" + xrpTxInterval + "';";
     db.query(query, function(err, result, fields) {
       if (err) throw err;
       var maxTimestamp = parseInt(getBlockNumberFromRowDataPacket(result, "timestamp"));
+      maxTimestamp = Math.floor(maxTimestamp / 1000);
       var curTimestamp = Math.floor(Date.now() / 1000);
       maxTimestamp = maxTimestamp == -1 ? curTimestamp - 3601 : maxTimestamp;
-      var url = blockchainObj.apiUrl.replace("<startTime>", maxTimestamp).replace("<endTime>", curTimestamp).replace("<txInterval>", xrpTxInterval);
+      var url = blockchainObj.apiUrl.replace("<startTime>", maxTimestamp).replace("<endTime>", curTimestamp)
+        .replace("<txInterval>", xrpTxInterval);
       callApi(url, blockchainObj.ticker, processRippleResponse);
     });
 }
 
 function getDogeData(blockchainObj) {
-    var query = "select max(blockNumber) from doge_network;";
+    var query = "select max(blockNumber) from blockchain_data where blockchainTicker='"
+        + blockchainObj.ticker + "';";
     db.query(query, function(err, result, fields) {
         if (err) throw err;
         var maxBlockInDb = parseInt(getBlockNumberFromRowDataPacket(result));
@@ -196,7 +219,8 @@ function callDogeApi(blockchainObj, maxBlockInDb) {
 }
 
 function getTrongridData(blockchainObj) {
-    var query = "select max(blockNumber) from trx_network;";
+    var query = "select max(blockNumber) from blockchain_data where blockchainTicker='"
+        + blockchainObj.ticker + "';";
     db.query(query, function(err, result, fields) {
       if (err) throw err;
       var maxBlockInDb = parseInt(getBlockNumberFromRowDataPacket(result));
@@ -247,7 +271,7 @@ function callApi(url, ticker, processResponseFunction, params) {
         processResponseFunction(response, ticker);
     }).catch(error => {
         // if(error.data.error == 'Too many requests. Slow down your queries.') {
-        //     apiRequestWait.set(response., new Date().getTime());
+        //     apiRequestWait.set(response., Date.now());
         // }
          console.log(error);
     });
@@ -262,20 +286,19 @@ function persist(selectQuery, insertQuery, updateQuery) {
 }
 
 function checkIfExists(selectQuery, insertQuery, updateQuery) {
-    console.log(selectQuery);
+    console.log("checkIfExists: " + selectQuery);
     db.query(selectQuery, function(err, result, fields) {
         if (err) throw err;
         if (result.length == 0) {
-          console.log(insertQuery);
           updateOrInsert(insertQuery);
         } else if(updateQuery != null) {
-          console.log(updateQuery);
           updateOrInsert(updateQuery);
         }
     });
 }
 
 function updateOrInsert(query) {
+    console.log("updateOrInsert: " + query);
     db.query(query, function(err, result, fields) {
         if (err) throw err;
         console.log(result);
