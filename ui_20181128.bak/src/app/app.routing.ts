@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'add-user', component: AddUserComponent },
   { path: 'list-user', component: ListUserComponent },
   { path: 'edit-user', component: EditUserComponent },
-  {path : '', component : LoginComponent}
+  { path : 'home', component : LoginComponent }
 ];
 
 export const routing = RouterModule.forRoot(routes);

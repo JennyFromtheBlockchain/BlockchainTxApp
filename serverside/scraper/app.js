@@ -13,4 +13,4 @@ var interval = setInterval(function(){
 	// vechainCaller.getData();
 
 	service.updateBlockchainData();
-}, 30000);
+}, 5000);

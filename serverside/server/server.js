@@ -6,6 +6,12 @@ const indexPath = "../../../ui/txtracker/index.html";
 const selectQueryTemplate = "select * from <blockchainTicker>_network where blockNumber=<blockNumber>;";
 const selectQueryByTimeFrameTemplate = "select * from <blockchainTicker>_network where timestamp>=<startTime> and timestamp<=<endTime>;";
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
 app.listen(3000, function () {
     console.log('App listening on port 3000!');
   });
@@ -14,8 +20,8 @@ app.listen(3000, function () {
 // -------- Endpoints -----------
 //
 app.get('/', function(req, res) {
-    //res.send("Shill tool 0.1!");
-    res.sendFile(path.join(__dirname + indexPath));
+    res.send("Shill tool 0.1!");
+    //res.sendFile(path.join(__dirname + indexPath));
 })
 
 app.get('/all', function(req, res) {
@@ -33,8 +39,8 @@ app.get('/:ticker/', function (req, res) {
 //
 
 function getAllBlockchainsData(res) {
-    var url = "select * from blockchains;";
-    queryDb(url, res)
+    var query = "select * from blockchains;";
+    queryDb(query, res)
 }
 
 function getBlockchainData(res, blockchainTicker, startTime, endTime) {
