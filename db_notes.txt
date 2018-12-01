@@ -1,7 +1,36 @@
 database: mysql -u root
-create table bch_network ( blockchainTicker varchar(4), blockNumber int, transactions int, timestamp bigint, primary key (blockNumber));
-create table xrp_network ( blockchainTicker varchar(4), transactions int, timestamp bigint, txInterval varchar(10), primary key (timestamp, txInterval));
-create table snt_network ( blockchainTicker varchar(5), txInterval varchar(10), transactions int, timestamp bigint, primary key (timestamp, txInterval));
 create table blockchains ( ticker varchar(5) not null, name varchar(30) not null, apiUrl varchar(255) not null, blockHeightApiUrl varchar(255), primary key (ticker));
 create table blockchain_data ( blockchainTicker varchar(5) not null, blockNumber int(11) default=-1, txInterval varchar(10), transactions int(11), timestamp bigint(20) not null, primary key (blockchainTicker, timestamp));
 
+
++------------------+------------+------+-----+---------+-------+
+| Field            | Type       | Null | Key | Default | Extra |
++------------------+------------+------+-----+---------+-------+
+| blockchainTicker | varchar(4) | YES  |     | NULL    |       |
+| blockNumber      | int(11)    | NO   | PRI | 0       |       |
+| transactions     | int(11)    | YES  |     | NULL    |       |
+| timestamp        | bigint(20) | YES  |     | NULL    |       |
++------------------+------------+------+-----+---------+-------+
+
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| blockchainTicker | varchar(4)  | YES  |     | NULL    |       |
+| txInterval       | varchar(10) | NO   | PRI |         |       |
+| transactions     | int(11)     | YES  |     | NULL    |       |
+| timestamp        | bigint(20)  | NO   | PRI | 0       |       |
++------------------+-------------+------+-----+---------+-------+
+
++------------------+------------+------+-----+---------+-------+
+| Field            | Type       | Null | Key | Default | Extra |
++------------------+------------+------+-----+---------+-------+
+| blockchainTicker | varchar(5) | NO   | PRI | 0       |       |
+| blockNumber      | int(11)    | YES  |     | NULL    |       |
+| txInterval       | varchar(10)| YES  |     | NULL    |       |
+| transactions     | int(11)    | YES  |     | NULL    |       |
+| timestamp        | bigint(20) | NO   | PRI | 0       |       |
++------------------+------------+------+-----+---------+-------+
+
+
+- User gives time frame (last 10 minutes)
+- Backend gets all transactions (the points will be given to the minute for example) and then the front end will just filter by the time 

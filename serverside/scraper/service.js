@@ -8,10 +8,6 @@ const dayInSec = 86400;
 const selectQueryTemplate = "select * from blockchain_data where blockchainTicker='<blockchainTicker>' and timestamp=<timestamp>;";
 const insertQueryTemplate = "insert ignore into blockchain_data(blockchainTicker, blockNumber, "
     + "txInterval, transactions, timestamp) values ('<blockchainTicker>', '<blockNumber>', '<txInterval>', <transactions>, '<timestamp>');";
-// const txIntervalSelectQueryTemplate = "select * from <>_where timestamp=<timestamp> "
-//     + "and txInterval='<txInterval>';";
-// const txIntervalInsertQueryTemplate = "insert ignore into <blockchainTicker>_network(blockchainTicker, txInterval, "
-//     + "transactions, timestamp) values ('<blockchainTicker>', '<txInterval>', <transactions>, <timestamp>);";
 var apiRequestWait = new Map();
 
 function timeToEpoch(time) {
@@ -35,18 +31,6 @@ function createInsertQuery(nO) {
         .replace("<blockNumber>", nO.blockNumber).replace("<txInterval>", nO.txInterval)
         .replace("<transactions>", nO.transactions).replace("<timestamp>", nO.timestamp);
 }
-
-// function createTxIntervalSelectQuery(nO) {
-//     return txIntervalSelectQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
-//         .replace("<timestamp>", nO.timestamp).replace("<txInterval>", nO.txInterval);
-// }
-
-// function createTxIntervalInsertQuery(nO) {
-//     return txIntervalInsertQueryTemplate.replace("<blockchainTicker>", nO.blockchainTicker)
-//         .replace("<blockchainTicker>", nO.blockchainTicker).replace("<txInterval>", nO.txInterval)
-//         .replace("<transactions>", nO.transactions).replace("<timestamp>", nO.timestamp);
-// }
-
 //
 // -------- Process response functions -----------
 //

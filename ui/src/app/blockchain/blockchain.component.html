@@ -1,0 +1,6 @@
+<h1>Contact</h1>
+<ul *ngIf="blockchain">
+  <li *ngFor="let b of blockchain">
+    <p>{{ b.blockchainTicker }} {{ b.transactions }}</p>
+  </li>
+</ul>
