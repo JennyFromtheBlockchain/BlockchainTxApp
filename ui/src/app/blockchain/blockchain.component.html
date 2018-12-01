@@ -1,10 +1,10 @@
 <h1>Contact</h1>
 
-<ul *ngIf="blockchain">
-  <li *ngFor="let b of blockchain">
+<!-- <ul *ngIf="dataSource">
+  <li *ngFor="let b of dataSource">
     <p>{{ b.blockchainTicker }} {{ b.transactions }}</p>
   </li>
-</ul>
+</ul> -->
 
 <div>
   <mat-card>
@@ -13,3 +13,43 @@
     <button mat-raised-button color="accent">Tyrion Lannister</button>
   </mat-card>
 </div>
+
+
+<!-- <table cdk-table [dataSource]="dataSource">
+  <ng-container cdkColumnDef="blockchainTicker">
+    <th cdk-header-cell *cdkHeaderCellDef> Blockchain Ticker </th>
+    <td cdk-cell *cdkCellDef="let row"> {{row.blockchainTicker}} </td>
+  </ng-container>
+
+  <tr cdk-header-row *cdkHeaderRowDef="['blockchainTicker']"></tr>
+  <tr cdk-row *cdkRowDef="let row; columns: ['blockchainTicker']"></tr>
+</table> -->
+
+<table cdk-table [dataSource]="dataSource">
+  <!-- Position Column -->
+  <ng-container cdkColumnDef="position">
+    <th cdk-header-cell *cdkHeaderCellDef> No. </th>
+    <td cdk-cell *cdkCellDef="let element"> {{element.position}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container cdkColumnDef="name">
+    <th cdk-header-cell *cdkHeaderCellDef> Name </th>
+    <td cdk-cell *cdkCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container cdkColumnDef="weight">
+    <th cdk-header-cell *cdkHeaderCellDef> Weight </th>
+    <td cdk-cell *cdkCellDef="let element"> {{element.weight}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container cdkColumnDef="symbol">
+    <th cdk-header-cell *cdkHeaderCellDef> Symbol </th>
+    <td cdk-cell *cdkCellDef="let element"> {{element.symbol}} </td>
+  </ng-container>
+
+  <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+  <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+</table>
