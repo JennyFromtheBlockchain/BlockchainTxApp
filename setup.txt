@@ -1,3 +1,7 @@
 Setup:
+
 UI setup
 https://vitalflux.com/angular-7-hello-world-app/
+
+Angular material setup:
+https://appdividend.com/2018/09/07/angular-material-example-tutorial-from-scratch/

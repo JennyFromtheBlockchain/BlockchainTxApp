@@ -1,6 +1,15 @@
 <h1>Contact</h1>
+
 <ul *ngIf="blockchain">
   <li *ngFor="let b of blockchain">
     <p>{{ b.blockchainTicker }} {{ b.transactions }}</p>
   </li>
 </ul>
+
+<div>
+  <mat-card>
+    <button mat-raised-button>Cersie Lannister</button>
+    <button mat-raised-button color="primary">Jaime Lannister</button>
+    <button mat-raised-button color="accent">Tyrion Lannister</button>
+  </mat-card>
+</div>
