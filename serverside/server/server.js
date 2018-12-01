@@ -5,7 +5,7 @@ const path = require('path');
 const indexPath = "../../../ui/txtracker/index.html";
 const selectQueryTemplate = "select * from <blockchainTicker>_network where blockNumber=<blockNumber>;";
 const selectQueryByTimeFrameTemplate = "select * from <blockchainTicker>_network where timestamp>=<startTime> and timestamp<=<endTime>;";
-
+const millisecondsInWeek = 604800000;
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -39,7 +39,13 @@ app.get('/:ticker/', function (req, res) {
 //
 
 function getAllBlockchainsData(res) {
-    var query = "select * from blockchains;";
+    // var query = "select * from blockchain_data;";
+    var query = "select blockchainTicker, sum(transactions) as totalTransactions from blockchain_data where "
+        + "blockchainTicker in (select blockchainTicker from blockchains) and timestamp>=<startTime> and "
+        + "timestamp<=<endTime> group by blockchainTicker order by totalTransactions desc;";
+    var endTime = Date.now();
+    var startTime = endTime - millisecondsInWeek;
+    query = query.replace('<startTime>', startTime).replace('<endTime>', endTime);
     queryDb(query, res)
 }
 

@@ -3,9 +3,7 @@ import { DataService } from '../data.service';
 
 interface BlockchainObj {
   blockchainTicker?: string;
-  blockNumer?: number;
-  transactions?: number;
-  timestamp?: BigInteger;
+  totalTransactions?: number;
 }
 interface BlockchainObjs {
   blockchains?: Object[];
@@ -17,14 +15,14 @@ interface BlockchainObjs {
 })
 export class BlockchainComponent implements OnInit {
 
-  displayedColumns: string[] = ['blockchainTicker', 'blockNumber', 'transactions', 'timestamp'];
+  displayedColumns: string[] = ['blockchainTicker', 'totalTransactions'];
 
   dataSource: BlockchainObjs;
 
   constructor(private data: DataService) { }
-
   ngOnInit() {
-    this.data.getBlockchain().subscribe(data => {
+    this.data.getAll().subscribe(data => {
+      console.log(data);
         let allData : BlockchainObjs = data;
         this.dataSource = allData;
         console.log(this.dataSource);

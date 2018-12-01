@@ -20,6 +20,10 @@ export class DataService {
     console.log("in getBlockchain");
     return this.http.get('http://localhost:3000/btc/?startTime=1543429541000&endTime=1543505704000');
   }
+  getAll() {
+    console.log("in getBlockchain");
+    return this.http.get('http://localhost:3000/all');
+  }
   sendFeedback(messageForm) {
     //Send a request to the backend witht the feedback, it should be sent as an email
     console.log(messageForm.controls.telegramId.value);
