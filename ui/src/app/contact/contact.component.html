@@ -1,4 +1,4 @@
-<h1>Feedback</h1>
+<h1>Contact</h1>
 
 <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
 
@@ -7,9 +7,6 @@
     <label>
       Name:
       <input type="text" formControlName="name">
-      <div *ngIf="submitted && messageForm.controls.name.errors" class="error">
-        <div *ngIf="messageForm.controls.name.errors.required">Your name is required</div>
-      </div>
     </label>
 
     <label>
@@ -31,14 +28,3 @@
     <input type="submit" value="Send feedback" class="cta">
   
   </form>
-
-  <div *ngIf="submitted" class="results">
-    <strong>Name:</strong> 
-    <span>{{ messageForm.controls.name.value }}</span>
-
-    <strong>Telegram ID:</strong> 
-    <span>{{ messageForm.controls.telegramId.value }}</span>
-
-    <strong>Feedback:</strong> 
-    <span>{{ messageForm.controls.feedback.value }}</span>
-  </div>
