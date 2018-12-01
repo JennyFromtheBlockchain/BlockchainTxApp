@@ -27,27 +27,33 @@
 
 <table cdk-table [dataSource]="dataSource">
   <!-- Position Column -->
-  <ng-container cdkColumnDef="position">
+  <!-- <ng-container cdkColumnDef="position">
     <th cdk-header-cell *cdkHeaderCellDef> No. </th>
     <td cdk-cell *cdkCellDef="let element"> {{element.position}} </td>
+  </ng-container> -->
+
+  <!-- BlockchainTicker-->
+  <ng-container cdkColumnDef="blockchainTicker">
+    <th cdk-header-cell *cdkHeaderCellDef> Blockchain Ticker</th>
+    <td cdk-cell *cdkCellDef="let element"> {{element.blockchainTicker}} </td>
   </ng-container>
 
-  <!-- Name Column -->
-  <ng-container cdkColumnDef="name">
-    <th cdk-header-cell *cdkHeaderCellDef> Name </th>
-    <td cdk-cell *cdkCellDef="let element"> {{element.name}} </td>
+  <!-- BlockNumber-->
+  <ng-container cdkColumnDef="blockNumber">
+    <th cdk-header-cell *cdkHeaderCellDef> Block Number</th>
+    <td cdk-cell *cdkCellDef="let element"> {{element.blockNumber}} </td>
   </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container cdkColumnDef="weight">
-    <th cdk-header-cell *cdkHeaderCellDef> Weight </th>
-    <td cdk-cell *cdkCellDef="let element"> {{element.weight}} </td>
+  <!-- Transactions-->
+  <ng-container cdkColumnDef="transactions">
+    <th cdk-header-cell *cdkHeaderCellDef> Transactions</th>
+    <td cdk-cell *cdkCellDef="let element"> {{element.transactions}} </td>
   </ng-container>
 
-  <!-- Symbol Column -->
-  <ng-container cdkColumnDef="symbol">
-    <th cdk-header-cell *cdkHeaderCellDef> Symbol </th>
-    <td cdk-cell *cdkCellDef="let element"> {{element.symbol}} </td>
+  <!-- Timestamp-->
+  <ng-container cdkColumnDef="timestamp">
+    <th cdk-header-cell *cdkHeaderCellDef> Timestamp</th>
+    <td cdk-cell *cdkCellDef="let element"> {{element.timestamp}} </td>
   </ng-container>
 
   <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
