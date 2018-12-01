@@ -1,6 +1,44 @@
-<h1>Contact</h1>
-<ul *ngIf="blockchain">
-  <li *ngFor="let b of blockchain">
-    <p>{{ b.blockchainTicker }} {{ b.transactions }}</p>
-  </li>
-</ul>
+<h1>Feedback</h1>
+
+<form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+
+    <h5 *ngIf="success">Your feedback was sent!</h5>
+
+    <label>
+      Name:
+      <input type="text" formControlName="name">
+      <div *ngIf="submitted && messageForm.controls.name.errors" class="error">
+        <div *ngIf="messageForm.controls.name.errors.required">Your name is required</div>
+      </div>
+    </label>
+
+    <label>
+      Telegram ID*:
+      <input type="text" formControlName="telegramId">
+      <div *ngIf="submitted && messageForm.controls.telegramId.errors" class="error">
+        <div *ngIf="messageForm.controls.telegramId.errors.required">Your Telegram ID is required</div>
+      </div>
+    </label>
+  
+    <label>
+      Feedback*:
+      <textarea formControlName="feedback"></textarea>
+      <div *ngIf="submitted && messageForm.controls.feedback.errors" class="error">
+        <div *ngIf="messageForm.controls.feedback.errors.required">Your feedback is required</div>
+      </div>
+    </label>
+
+    <input type="submit" value="Send feedback" class="cta">
+  
+  </form>
+
+  <div *ngIf="submitted" class="results">
+    <strong>Name:</strong> 
+    <span>{{ messageForm.controls.name.value }}</span>
+
+    <strong>Telegram ID:</strong> 
+    <span>{{ messageForm.controls.telegramId.value }}</span>
+
+    <strong>Feedback:</strong> 
+    <span>{{ messageForm.controls.feedback.value }}</span>
+  </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../data.service';
 
 @Component({
@@ -8,15 +9,27 @@ import { DataService } from '../data.service';
 })
 export class ContactComponent implements OnInit {
 
-  blockchain: Object;
+  messageForm: FormGroup;
+  submitted = false;
+  success = false;
 
-  constructor(private data: DataService) { }
+  constructor(private formBuilder: FormBuilder, private data: DataService) { }
 
   ngOnInit() {
-    this.data.getBlockchain().subscribe(data => {
-        this.blockchain = data
-        console.log(this.blockchain);
-      }
-    );
+    this.messageForm = this.formBuilder.group({
+      name: [''],
+      telegramId: ['', Validators.required],
+      feedback: ['', Validators.required]
+    });
   }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.messageForm.invalid) {
+        return;
+    }
+    this.success = true;
+    this.data.sendFeedback(this.messageForm);
+}
+
 }

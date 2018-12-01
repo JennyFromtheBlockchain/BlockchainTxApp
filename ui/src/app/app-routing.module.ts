@@ -8,7 +8,7 @@ import { BlockchainComponent } from './blockchain/blockchain.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'contact', component: ContactComponent },
+  { path: 'feedback', component: ContactComponent },
   { path: 'blockchain', component: BlockchainComponent },
 ];
 
